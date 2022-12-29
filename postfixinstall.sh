@@ -15,3 +15,37 @@ sudo apt-get install postfix -y
 # Install Telnet Client
 
 sudo apt install telnet
+
+# Setting up DKIM
+
+sudo apt install opendkim opendkim-tools
+sudo gpasswd -a postfix opendkim
+
+
+################################################################
+#### Edit /etc/opendkim.conf add "Logwhy yes" after "Syslog yes" line
+#### Uncomment the following "Canonicalization simple" line change simple with "relaxed/simple"
+#### Uncomment the following "Mode sv" "SubDomains no"
+#### Add the following lines to
+####AutoRestart         yes
+####AutoRestartRate     10/1M
+####Background          yes
+####DNSTimeout          5
+####SignatureAlgorithm  rsa-sha256#OpenDKIM user
+# Remember to add user postfix to group opendkim
+####UserID             opendkim
+
+# Map domains in From addresses to keys used to sign messages
+####KeyTable           refile:/etc/opendkim/key.table
+####SigningTable       refile:/etc/opendkim/signing.table
+
+# Hosts to ignore when verifying signatures
+####ExternalIgnoreList  /etc/opendkim/trusted.hosts
+
+# A set of internal hosts whose mail should be signed
+####InternalHosts       /etc/opendkim/trusted.hosts
+
+####
+################################################################
+
+sudo sed -i '/^Syslog/a Logwhy yes' /etc/opendkim.conf
