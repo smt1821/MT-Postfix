@@ -18,7 +18,7 @@ sudo apt install telnet
 
 # Setting up DKIM
 
-sudo apt install opendkim opendkim-tools
+sudo apt install opendkim opendkim-tools -y
 sudo gpasswd -a postfix opendkim
 
 
