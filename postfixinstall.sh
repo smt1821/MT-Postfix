@@ -56,4 +56,3 @@ sudo gpasswd -a postfix opendkim
 ####
 ################################################################
 
-sudo sed -i '/^Syslog/a Logwhy yes' /etc/opendkim.conf
