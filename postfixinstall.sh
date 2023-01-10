@@ -2,15 +2,23 @@
 
 # Change the hostname
 
-sudo hostnamectl set-hostname mtmailserver01
+#sudo hostnamectl set-hostname mail.letsdoiton.cloud
 
 # Install Postfix
 sudo apt-get update
 
-sudo echo <<< "postfix postfix/mailname string letsdoiton.cloud" | debconf-set-selections
+sudo echo <<< "postfix postfix/mailname string smtptest | debconf-set-selections"
 sudo echo <<< "postfix postfix/main_mailer_type string 'Internet Site'" | debconf-set-selections
 
 sudo apt-get install postfix -y
+
+#Backup the existing conf file
+
+sudo cp /etc/opendkim.conf /etc/opendkim.conf.bak
+
+#Add new line after Syslog
+
+sed -i '/Syslog/a Logwhy yes' /etc/opendkim.conf 
 
 # Install Telnet Client
 
@@ -48,6 +56,17 @@ sudo gpasswd -a postfix opendkim
 ####
 ################################################################
 
+<<<<<<< HEAD
 sudo sed -i '/^Syslog/a Logwhy yes' /etc/opendkim.conf
 
 sudo sed -i '/Canonicalization/s/^/#' /etc/opendkim.conf
+=======
+sed '{
+/^Syslog/a Logwhy     yes
+/^#Canonicalization/a Canonicalization         relaxed/simple
+/Mode/s/^#//
+/SubDomains/s/^#//
+/SubDomains/a AutoRestart     yes\nAutoRestartRate     10/1M\nBackground     yes\nDNSTimeout     5\nSignatureAlgorithm     rsa-sha256
+
+}' /etc/opendkim.conf
+>>>>>>> b66d6df3df9c4df41406f047e5ba73b995c0568f
