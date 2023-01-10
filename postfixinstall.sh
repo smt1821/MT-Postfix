@@ -56,3 +56,11 @@ sudo gpasswd -a postfix opendkim
 ####
 ################################################################
 
+sed '{
+/^Syslog/a Logwhy     yes
+/^#Canonicalization/a Canonicalization         relaxed/simple
+/Mode/s/^#//
+/SubDomains/s/^#//
+/SubDomains/a AutoRestart     yes\nAutoRestartRate     10/1M\nBackground     yes\nDNSTimeout     5\nSignatureAlgorithm     rsa-sha256
+
+}' /etc/opendkim.conf
