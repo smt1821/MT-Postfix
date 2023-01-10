@@ -7,7 +7,7 @@
 # Install Postfix
 sudo apt-get update
 
-sudo echo <<< "postfix postfix/mailname string letsdoiton.cloud" | debconf-set-selections
+sudo echo <<< "postfix postfix/mailname string smtptest | debconf-set-selections
 sudo echo <<< "postfix postfix/main_mailer_type string 'Internet Site'" | debconf-set-selections
 
 sudo apt-get install postfix -y
