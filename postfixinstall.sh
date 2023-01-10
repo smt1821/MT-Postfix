@@ -2,7 +2,7 @@
 
 # Change the hostname
 
-sudo hostnamectl set-hostname mail.letsdoiton.cloud
+sudo hostnamectl set-hostname mtmailserver01
 
 # Install Postfix
 sudo apt-get update
@@ -14,7 +14,7 @@ sudo apt-get install postfix -y
 
 # Install Telnet Client
 
-sudo apt install telnet
+sudo apt install telnet -y
 
 # Setting up DKIM
 
@@ -49,3 +49,5 @@ sudo gpasswd -a postfix opendkim
 ################################################################
 
 sudo sed -i '/^Syslog/a Logwhy yes' /etc/opendkim.conf
+
+sudo sed -i '/Canonicalization/s/^/#' /etc/opendkim.conf
