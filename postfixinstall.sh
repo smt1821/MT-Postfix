@@ -18,7 +18,7 @@ sudo cp /etc/opendkim.conf /etc/opendkim.conf.bak
 
 #Add new line after Syslog
 
-sed -i '/Syslog/a Logwhy yes' /etc/opendkim.conf 
+#sed -i '/Syslog/a Logwhy yes' /etc/opendkim.conf 
 
 # Install Telnet Client
 
