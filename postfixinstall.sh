@@ -67,7 +67,18 @@ sudo sed -i '{
 /Mode/s/^#//
 /SubDomains/s/^#//
 /SubDomains/a AutoRestart     yes\nAutoRestartRate     10/1M\nBackground     yes\nDNSTimeout     5\nSignatureAlgorithm     rsa-sha256
-
+/UserID/a  KeyTable           refile:/etc/opendkim/key.table\nSigningTable       refile:/etc/opendkim/signing.table\nExternalIgnoreList  /etc/opendkim/trusted.hosts\nInternalHosts       /etc/opendkim/trusted.hosts
 }' /etc/opendkim.conf
+
+
+#Directories for OPENKIM 
+sudo mkdir /etc/opendkim
+
+sudo mkdir /etc/opendkim/keys
+
+#Change the owner opendkim
+sudo chown -R opendkim:opendkim /etc/opendkim
+sudo chmod go-rw /etc/opendkim/keys
+
 
 ###End of script###
