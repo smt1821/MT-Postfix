@@ -80,5 +80,32 @@ sudo mkdir /etc/opendkim/keys
 sudo chown -R opendkim:opendkim /etc/opendkim
 sudo chmod go-rw /etc/opendkim/keys
 
+sudo touch /etc/opendkim/signing.table
+
+sudo echo "*@intelex.dev    default._domainkey.intelex.dev" >> /etc/opendkim/signing.table
+sudo echo "*@*.intelex.dev  default._domainkey.intelex.dev" >> /etc/opendkim/signing.table
+
+sudo touch /etc/opendkim/key.table
+
+sudo echo "default._domainkey.intelex.dev     intelex.dev:default:/etc/opendkim/keys/intelex.dev/default.private" >> /etc/opendkim/key.table
+
+sudo touch /etc/opendkim/trusted.hosts
+
+sudo echo "127.0.0.1" >> /etc/opendkim/trusted.hosts
+sudo echo "localhost" >> /etc/opendkim/trusted.hosts
+sudo echo ".intelex.dev" >> /etc/opendkim/trusted.hosts
+
+
+# Generate Private/Public keypair
+
+sudo mkdir /etc/opendkim/keys/intelex.dev
+
+sudo opendkim-genkey -b 2048 -d intelex.dev -D /etc/opendkim/keys/intelex.dev -s default -v
+
+sudo chown opendkim:opendkim /etc/opendkim/keys/intelex.dev/default.private
+
+sudo chmod 600 /etc/opendkim/keys/intelex.dev/default.private
+
+
 
 ###End of script###
