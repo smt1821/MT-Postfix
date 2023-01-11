@@ -60,7 +60,7 @@ sudo gpasswd -a postfix opendkim
 sudo sed -i '/^Syslog/a Logwhy yes' /etc/opendkim.conf
 
 sudo sed -i '/Canonicalization/s/^/#' /etc/opendkim.conf
-=======
+
 sed '{
 /^Syslog/a Logwhy     yes
 /^#Canonicalization/a Canonicalization         relaxed/simple
