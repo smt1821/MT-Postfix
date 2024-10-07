@@ -104,6 +104,35 @@ sudo chown opendkim:opendkim /etc/opendkim/keys/intelex.dev/default.private
 
 sudo chmod 600 /etc/opendkim/keys/intelex.dev/default.private
 
+# Connect Postfix to OpenDKIM
+
+sudo mkdir /var/spool/postfix/opendkim
+
+sudo chown opendkim:postfix /var/spool/postfix/opendkim
+
+sudo vi /etc/opendkim.conf
+
+## Replace Socket    local:/run/opendkim/opendkim.sock to
+
+Socket    local:/run/opendkim/opendkim.sock
+
+## Replace in /etc/default/opendkim SOCKET=local:$RUNDIR/opendkim.sock to
+
+SOCKET="local:/var/spool/postfix/opendkim/opendkim.sock"
+
+
+# Postfix main conf file changes
+
+## Add these lines to /etc/postfix/main.cf
+
+
+# Milter configuration
+milter_default_action = accept
+milter_protocol = 6
+smtpd_milters = local:opendkim/opendkim.sock
+non_smtpd_milters = $smtpd_milters
+
+sudo systemctl restart opendkim postfix
 
 
 ###End of script###
